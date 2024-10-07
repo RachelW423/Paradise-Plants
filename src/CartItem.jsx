@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { removeItem, updateQuantity } from './CartSlice';
 import './CartItem.css';
 
-
 const CartItem = ({ onContinueShopping }) => {
   const cart = useSelector(state => state.cart.items);
   const dispatch = useDispatch();
@@ -12,47 +11,45 @@ const CartItem = ({ onContinueShopping }) => {
   const calculateTotalAmount = () => {
     let totalAmount = 0;
     for (let item of cart) {
-        let itemCost = item.quantity * item.cost;
-        totalAmount += itemCost;
+      let itemCost = item.quantity * item.cost;
+      totalAmount += itemCost;
     }
     return totalAmount;
   };
 
-  const handleContinueShopping = (e) => {
-   onContinueShopping()
-  };
-
-
-
   const handleIncrement = (item) => {
-   dispatch(updateQuantity({
-            id: item.id,
-            quantity: item.quantity + 1 
-        }));
-    };
-
+    dispatch(updateQuantity({
+      name: item.name,
+      quantity: item.quantity + 1 
+    }));
+  };
 
   const handleDecrement = (item) => {
     if (item.quantity > 1) {
-            dispatch(updateQuantity({
-                id: item.id,
-                quantity: item.quantity - 1 
-            }));
-        } else {
-            dispatch(removeItem({ id: item.id }));
-        }
+      dispatch(updateQuantity({
+        name: item.name,
+        quantity: item.quantity - 1 
+      }));
+    } else {
+      dispatch(removeItem({ name: item.name }));
+    }
   };
 
   const handleRemove = (item) => {
-        dispatch(removeItem({id: item.id}))
+    dispatch(removeItem({ name: item.name }));
+  };
+
+  const handleContinueShopping = () => {
+    onContinueShopping(); // Correctly calling the function without e.preventDefault()
   };
 
   const calculateTotalCost = (item) => {
-     return item.quantity * item.cost;
+    return item.quantity * item.cost;
   };
-  const handleCheckoutShopping = (e) => {
-  alert('Functionality to be added for future reference');
-    };
+
+  const handleCheckoutShopping = () => {
+    alert('Functionality to be added for future reference');
+  };
 
   return (
     <div className="cart-container">
@@ -77,14 +74,12 @@ const CartItem = ({ onContinueShopping }) => {
       </div>
       <div style={{ marginTop: '20px', color: 'black' }} className='total_cart_amount'></div>
       <div className="continue_shopping_btn">
-        <button className="get-started-button" onClick={(e) => handleContinueShopping(e)}>Continue Shopping</button>
+        <button className="get-started-button" onClick={handleContinueShopping}>Continue Shopping</button>
         <br />
-        <button className="get-started-button1">Checkout</button>
+        <button className="get-started-button1" onClick={handleCheckoutShopping}>Checkout</button>
       </div>
     </div>
   );
 };
 
 export default CartItem;
-
-
