@@ -297,7 +297,8 @@ const handleAddToCart = (plant) => {
                 <div className="product-title">{plant.name}</div>
                 <div className="product-description">{plant.description}</div>
                 <div className="product-cost">{plant.cost}</div>
-                <button onClick={() => console.log('Button clicked')}>Add to Cart</button>
+                <button className="product-button" onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+
 
             </div>
             ))}
